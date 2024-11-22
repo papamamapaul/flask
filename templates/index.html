@@ -3,34 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gift Ideas</title>
+    <title>Items Catalog</title>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.3/dist/full.min.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="min-h-screen bg-base-200">
     <div class="container mx-auto px-4 py-8">
-        <h1 class="text-4xl font-bold text-center mb-8">🎁 Gift Ideas</h1>
+        <h1 class="text-4xl font-bold text-center mb-8">📦 Items Catalog</h1>
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {% for gift in gifts %}
+            {% for item in items %}
             <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow">
                 <div class="card-body">
-                    <h2 class="card-title">{{ gift.title }}</h2>
-                    <p class="text-base-content/70">{{ gift.description }}</p>
-                    <div class="card-actions justify-end mt-4">
-                        <a href="{{ gift.url }}" target="_blank" class="btn btn-primary">Visit Website</a>
+                    <h2 class="card-title mb-2">{{ item.title }}</h2>
+                    <div class="flex flex-wrap gap-2 mb-3">
+                        {% if item.categories %}
+                            {% for category in item.categories %}
+                                <div class="badge badge-primary">{{ category.title }}</div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="badge badge-ghost">Uncategorized</div>
+                        {% endif %}
                     </div>
+                    {% if item.description %}
+                        <p class="text-base-content/70">{{ item.description }}</p>
+                    {% endif %}
                     <div class="text-xs text-base-content/50 mt-2">
-                        Added: {{ gift.createdAt.split('T')[0] }}
+                        Added: {{ item.createdAt.split('T')[0] }}
                     </div>
                 </div>
             </div>
             {% endfor %}
         </div>
 
-        {% if not gifts %}
+        {% if not items %}
         <div class="text-center py-12">
-            <div class="text-xl text-base-content/70">No gift ideas found</div>
+            <div class="text-xl text-base-content/70">No items found</div>
         </div>
         {% endif %}
     </div>
